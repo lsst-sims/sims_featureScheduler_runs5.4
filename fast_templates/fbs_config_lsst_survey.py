@@ -318,12 +318,11 @@ def get_scheduler(for_simulation=False) -> tuple[int, CoreScheduler]:
         u_exptime=u_template_exptime,
         n_obs_template={"u": 6, "g": 6, "r": 6, "i": 6, "z": 6, "y": 6},
         night_min=0,
-        night_max=730,
+        night_max=365,
         science_program=science_program,
         blob_survey_params=blob_survey_params,
         standard_mask_params=template_mask_params,
     )
-
 
     # Set up long gaps (triplets) survey.
     # Modify the max alt.
