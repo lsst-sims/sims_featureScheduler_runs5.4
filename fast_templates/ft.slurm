@@ -8,9 +8,9 @@
 #SBATCH --error=output-%j.txt
 #
 #SBATCH --nodes=1                       # Number of nodes
-#SBATCH --ntasks=1
+#SBATCH --ntasks=2
 #SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=40g
+#SBATCH --mem-per-cpu=45g
 #
 #SBATCH --time=3-14:10:00
 #SBATCH --chdir=/sdf/data/rubin/shared/fbs_sims/sims_featureScheduler_runs5.4/fast_templates
@@ -25,7 +25,7 @@ source ~/anaconda3/etc/profile.d/conda.sh
 conda activate rubin14
 export OPENBLAS_NUM_THREADS=1
 
-python fast_templates.py
+cat ft.sh | parallel -j 2
 
 
 # rm maf.sh

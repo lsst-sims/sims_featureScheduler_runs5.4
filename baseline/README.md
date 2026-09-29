@@ -20,4 +20,5 @@ not bothering to copy
 Main changed from 5.4:
 
 * changes to template gathering. Switched to gathering over multiple years
+* change survey start date to Time("2026-10-15T12:00:00").mjd (from "2026-06-15T12:00:00")
 
