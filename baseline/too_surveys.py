@@ -27,7 +27,10 @@ import numpy as np
 import numpy.typing as npt
 import rubin_scheduler.scheduler.basis_functions as bf
 import rubin_scheduler.scheduler.detailers as detailers
-from rubin_scheduler.scheduler.detailers import BandPickToODetailer
+from rubin_scheduler.scheduler.detailers import (
+    BandPickToODetailer,
+    BandSubstituteDetailer,
+)
 from rubin_scheduler.scheduler.surveys import ToOScriptedSurvey
 from rubin_scheduler.utils import DEFAULT_NSIDE
 
@@ -43,7 +46,6 @@ def gen_too_surveys(
     too_footprint: npt.NDArray | None = None,
     masks: list[bf.BaseBasisFunction] | None = None,
     science_program: str = SCIENCE_PROGRAM,
-    standard_mask_params: dict | None = None,
     for_simulation: bool = False,
 ) -> list[ToOScriptedSurvey]:
     """Generate a list of ToO surveys to follow up
@@ -59,6 +61,8 @@ def gen_too_surveys(
         Footprint to contain ToOs within (such as the lsst footprint).
     masks : `list` of `bf.BaseBasisFunction` or None
         A list of masks to apply to the ToO surveys.
+        The masks themselves are passed instead of the standard_mask_params
+        so that cloud avoidance can be added.
     science_program : `str`
         Metadata to identify the science program for the visit.
     for simulation : `bool`
@@ -72,6 +76,9 @@ def gen_too_surveys(
     """
 
     too_surveys = []
+
+    if masks is None:
+        masks = []
 
     ############
     # Generic GW followup
@@ -99,11 +106,11 @@ def gen_too_surveys(
             exptimes=exptimes,
             detailers=deepcopy(detailer_list),
             too_types_to_follow=["GW_case_A"],
-            survey_name="ToO, GW_case_A",
+            survey_name="ToO, GW_A",
             flushtime=48.0,
             # Update target_name to match the alert event ID
-            target_name_base="GW_case_A",
-            observation_reason="too_gw_case_a",
+            target_name_base="GW_A",
+            observation_reason="too_gw_a",
             science_program=science_program,
         )
     )
@@ -127,10 +134,10 @@ def gen_too_surveys(
             exptimes=exptimes,
             detailers=deepcopy(detailer_list),
             too_types_to_follow=["GW_case_B", "GW_case_C"],
-            survey_name="ToO, GW_case_B_C",
+            survey_name="ToO, GW_B_C",
             # Update target_name to match the alert event ID
-            target_name_base="GW_case_B_C",
-            observation_reason="too_gw_case_b_c",
+            target_name_base="GW_B_C",
+            observation_reason="too_gw_b_c",
             science_program=science_program,
             flushtime=48,
         )
@@ -155,10 +162,10 @@ def gen_too_surveys(
             exptimes=exptimes,
             detailers=deepcopy(detailer_list),
             too_types_to_follow=["GW_case_D", "GW_case_E"],
-            survey_name="ToO, GW_case_D_E",
+            survey_name="ToO, GW_D_E",
             # Update target_name to match the alert event ID
-            target_name_base="GW_case_D_E",
-            observation_reason="too_gw_case_d_e",
+            target_name_base="GW_D_E",
+            observation_reason="too_gw_d_e",
             science_program=science_program,
             flushtime=48,
             event_gen_detailers=None,
@@ -190,13 +197,12 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            return_n_limit=100,
             detailers=deepcopy(detailer_list),
             too_types_to_follow=["GW_case_large"],
-            survey_name="ToO, GW_case_large",
+            survey_name="ToO, GW_large",
             # Update target_name to match the alert event ID
-            target_name_base="GW_case_large",
-            observation_reason="too_gw_case_large",
+            target_name_base="GW_large",
+            observation_reason="too_gw_large",
             science_program=science_program,
             flushtime=48,
             event_gen_detailers=None,
@@ -237,6 +243,15 @@ def gen_too_surveys(
     nvis = [1] * times.size
     exptimes = [EXPTIME] * times.size
 
+    if detailer_list is not None:
+        more_detailers = deepcopy(detailer_list)
+    else:
+        more_detailers = []
+
+    more_detailers.append(
+        BandSubstituteDetailer(band_original="z", band_replacement="y")
+    )
+
     too_surveys.append(
         ToOScriptedSurvey(
             masks,
@@ -246,7 +261,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=more_detailers,
             too_types_to_follow=["BBH_case_A", "BBH_case_B", "BBH_case_C"],
             survey_name="ToO, BBH",
             # Update target_name to match the alert event ID
@@ -331,6 +346,15 @@ def gen_too_surveys(
     ]
     nvis = [1, 4, 1, 1, 4, 1, 4, 1]
 
+    if detailer_list is not None:
+        more_detailers = deepcopy(detailer_list)
+    else:
+        more_detailers = []
+
+    more_detailers.append(
+        BandSubstituteDetailer(band_original="z", band_replacement="y")
+    )
+
     too_surveys.append(
         ToOScriptedSurvey(
             masks,
@@ -340,7 +364,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=more_detailers,
             too_types_to_follow=["neutrino"],
             survey_name="ToO, neutrino",
             # Update target_name to match the alert event ID
@@ -389,6 +413,15 @@ def gen_too_surveys(
     nvis = [2] * 3
     exptimes = [15.0] * 3
 
+    if detailer_list is not None:
+        more_detailers = deepcopy(detailer_list)
+    else:
+        more_detailers = []
+
+    more_detailers.append(
+        BandSubstituteDetailer(band_original="z", band_replacement="i")
+    )
+
     too_surveys.append(
         ToOScriptedSurvey(
             masks,
@@ -398,7 +431,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=more_detailers,
             too_types_to_follow=["SSO_twilight"],
             survey_name="ToO, SSO_twi",
             # Update target_name to match the alert event ID
