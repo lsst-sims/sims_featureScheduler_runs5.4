@@ -306,9 +306,6 @@ def gen_too_surveys(
 
     ############
     # BBH hole-black hole GW merger
-    # If nearby (dist < 2200 Mpc) and dark time, use ugi
-    # If distant (dist > 2200 Mpc) and dark time, use rgi
-    # If bright time, use rzi
     ############
 
     # XXX--only considering bright objects now.
@@ -410,32 +407,17 @@ def gen_too_surveys(
     #     )
     # )
 
+
     ############
-    # Neutrino detector followup
+    # IceCube followup - Standard
     ############
 
-    times = np.array([0.0, 0.0, 15.0 / 60.0, 0.0, 24.0, 24.0, 144.0, 144.0], float)
-    bands_at_times = ["u", "g", "r", "z", "g", "r", "g", "rz"]
+    times = np.array([0.0, 0.0, 15.0 / 60.0, 0.0, 24.0, 24.0, 48.0, 72.0, 96.0, 120.0, 144.0, 168.0, 168.0], float)
+    bands_at_times = ["u", "g", "r", "z", "g", "r", "g", "g", "gr", "g", "g", "g", "rz"]
     exptimes = [
-        30,
-        30,
-        EXPTIME,
-        EXPTIME,
-        30,
-        EXPTIME,
-        30,
-        EXPTIME,
+        30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30
     ]
-    nvis = [1, 4, 1, 1, 4, 1, 4, 1]
-
-    if detailer_list is not None:
-        more_detailers = deepcopy(detailer_list)
-    else:
-        more_detailers = []
-
-    more_detailers.append(
-        BandSubstituteDetailer(band_original="z", band_replacement="y")
-    )
+    nvis = [1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 4, 1]
 
     too_surveys.append(
         ToOScriptedSurvey(
@@ -446,12 +428,75 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=more_detailers,
-            too_types_to_follow=["neutrino"],
-            survey_name="ToO, neutrino",
+            detailers=deepcopy(detailer_list),
+            too_types_to_follow=["neutrino_standard"],
+            survey_name="ToO, neutrino, standard",
             # Update target_name to match the alert event ID
-            target_name_base="neutrino",
-            observation_reason="too_neutrino",
+            target_name_base="neutrino_standard",
+            observation_reason="too_neutrino_standard",
+            science_program=science_program,
+            flushtime=20 * 24,
+        )
+    )
+
+
+    ############
+    # IceCube followup - Extremely-high energy 
+    ############
+
+    times = np.array([0.0, 15.0 / 60.0, 24.0, 48.0, 72.0, 96.0, 120.0, 144.0, 168.0, 192.0, 216.0], float)
+    bands_at_times = ["ugz", "r", "grz", "grz", "grz", "grz", "grz", "grz", "grz", "grz", "grz"]
+    exptimes = [
+        30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30 
+        ]
+    nvis = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=deepcopy(detailer_list),
+            too_types_to_follow=["neutrino_extreme"],
+            survey_name="ToO, neutrino, extreme",
+            # Update target_name to match the alert event ID
+            target_name_base="neutrino_extreme",
+            observation_reason="too_neutrino_extreme",
+            science_program=science_program,
+            flushtime=20 * 24,
+        )
+    )
+
+    ############
+    # IceCube followup - coincident alert 
+    ############
+
+    times = np.array([0, 15/60, 2, ], float)
+    bands_at_times = ["rz","g","r","rgz"]
+    exptimes = [
+         30, 30, 30, 30
+        ]
+    nvis = [4, 4, 4, 4]
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=deepcopy(detailer_list),
+            too_types_to_follow=["neutrino_coinc"],
+            survey_name="ToO, neutrino, coincident",
+            # Update target_name to match the alert event ID
+            target_name_base="neutrino_coincident",
+            observation_reason="too_neutrino_coincident",
             science_program=science_program,
             flushtime=20 * 24,
         )
