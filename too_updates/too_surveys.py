@@ -91,6 +91,10 @@ def gen_too_surveys(
     # XXX--instructions say do 4th night only 1/3 of the time.
     # Just leaving off for now
 
+    # SPM--Maybe it would be good to have this, or some other
+    # GW-based strategy as a backup in the event of a ToO advisory
+    # Committee intervention. Would need further consultation.
+
     times = np.array([0, 24, 48], float)
     bands_at_times = ["ugrizy", "ugrizy", "ugrizy"]
     nvis = [3, 1, 1]
@@ -115,13 +119,23 @@ def gen_too_surveys(
         )
     )
 
+
     ############
-    # GW gold and GW unidentified gold
+    # GW - BNS gold
     ############
+    
+    event_detailers = [
+        BandPickToODetailer(
+            band_start="r",
+            band_end="u",
+            check_mounted=True,
+            require_dark=True
+        )
+    ]
 
     times = np.array([0, 2, 4, 24, 48, 72], float)
-    bands_at_times = ["gri", "gri", "gri", "ri", "ri", "ri"]
-    nvis = [4, 4, 4, 6, 6, 6]
+    bands_at_times = ["griz", "griz", "griz", "giz", "giz", "giz"]
+    nvis = [1, 1, 1, 3, 3, 3]
     exptimes = [30.0, 30.0, 30.0, 30.0, 30.0, 30.0]
     too_surveys.append(
         ToOScriptedSurvey(
@@ -133,24 +147,26 @@ def gen_too_surveys(
             nvis=nvis,
             exptimes=exptimes,
             detailers=deepcopy(detailer_list),
-            too_types_to_follow=["GW_case_B", "GW_case_C"],
-            survey_name="ToO, GW_B_C",
+            too_types_to_follow=["GW_BNS_Gold,GW_SSM_Gold"],
+            survey_name="ToO, GW, BNS, Gold",
             # Update target_name to match the alert event ID
-            target_name_base="GW_B_C",
-            observation_reason="too_gw_b_c",
+            target_name_base="GW_BNS_Gold",
+            observation_reason="too_gw_bns_gold",
             science_program=science_program,
             flushtime=48,
+            event_gen_detailers=event_detailers
         )
     )
 
-    ############
-    # GW silver and GW unidentified silver
-    ############
 
-    times = np.array([0, 24, 48, 72], float)
-    bands_at_times = ["gi", "gi", "gi", "gi"]
-    nvis = [1, 4, 4, 4]
-    exptimes = [30.0, 30.0, 30.0, 30.0]
+    ############
+    # GW - BNS silver 
+    ############ 
+
+    times = np.array([0, 2, 24, 48, 72], float)
+    bands_at_times = ["gi", "gi", "gi", "gi", "gi"]
+    nvis = [1, 1, 3, 3, 3]
+    exptimes = [30.0, 30.0, 30.0, 30.0, 30.0]
     too_surveys.append(
         ToOScriptedSurvey(
             masks,
@@ -161,30 +177,22 @@ def gen_too_surveys(
             nvis=nvis,
             exptimes=exptimes,
             detailers=deepcopy(detailer_list),
-            too_types_to_follow=["GW_case_D", "GW_case_E"],
-            survey_name="ToO, GW_D_E",
+            too_types_to_follow=["GW_BNS_Silver,GW_SSM_Silver"],
+            survey_name="ToO, GW, BNS, Silver",
             # Update target_name to match the alert event ID
-            target_name_base="GW_D_E",
-            observation_reason="too_gw_d_e",
+            target_name_base="GW_BNS_Silver",
+            observation_reason="too_gw_bns_silver",
             science_program=science_program,
             flushtime=48,
-            event_gen_detailers=None,
         )
     )
 
-    ############
-    # GW large
-    ############
 
-    times = np.array(
-        [
-            0,
-            48,
-            96,
-            144,
-        ],
-        float,
-    )
+    ############
+    # GW - BNS bronze 
+    ############ 
+
+    times = np.array([0, 24, 48, 72], float)
     bands_at_times = ["gi", "gi", "gi", "gi"]
     nvis = [1, 1, 1, 1]
     exptimes = [30.0, 30.0, 30.0, 30.0]
@@ -198,14 +206,101 @@ def gen_too_surveys(
             nvis=nvis,
             exptimes=exptimes,
             detailers=deepcopy(detailer_list),
-            too_types_to_follow=["GW_case_large"],
-            survey_name="ToO, GW_large",
+            too_types_to_follow=["GW_BNS_Bronze"],
+            survey_name="ToO, GW, BNS, Bronze",
             # Update target_name to match the alert event ID
-            target_name_base="GW_large",
-            observation_reason="too_gw_large",
+            target_name_base="GW_BNS_Bronze",
+            observation_reason="too_gw_bns_bronze",
             science_program=science_program,
             flushtime=48,
-            event_gen_detailers=None,
+        )
+    )
+
+
+
+    ############
+    # GW - NSBH gold
+    ############ 
+
+    times = np.array([0, 2, 4, 24, 48, 72], float)
+    bands_at_times = ["griz", "griz", "griz", "giz", "giz", "giz"]
+    nvis = [1, 1, 1, 3, 3, 3]
+    exptimes = [30.0, 30.0, 30.0, 30.0, 30.0, 30.0]
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=deepcopy(detailer_list),
+            too_types_to_follow=["GW_NSBH_Gold"],
+            survey_name="ToO, GW, NSBH, Gold",
+            # Update target_name to match the alert event ID
+            target_name_base="GW_NSBH_Gold",
+            observation_reason="too_gw_nsbh_gold",
+            science_program=science_program,
+            flushtime=48,
+        )
+    )
+
+
+    ############
+    # GW - NSBH silver 
+    ############ 
+
+    times = np.array([0, 2, 24, 48, 72], float)
+    bands_at_times = ["gz", "gz", "gz", "gz", "gz"]
+    nvis = [1, 1, 3, 3, 3]
+    exptimes = [30.0, 30.0, 30.0, 30.0, 30.0]
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=deepcopy(detailer_list),
+            too_types_to_follow=["GW_NSBH_Silver"],
+            survey_name="ToO, GW, NSBH, Silver",
+            # Update target_name to match the alert event ID
+            target_name_base="GW_NSBH_Silver",
+            observation_reason="too_gw_nsbh_silver",
+            science_program=science_program,
+            flushtime=48,
+        )
+    )
+
+
+    ############
+    # GW - NSBH bronze 
+    ############ 
+
+    times = np.array([0, 24, 48, 72], float)
+    bands_at_times = ["gz", "gz", "gz", "gz"]
+    nvis = [1, 1, 1, 1]
+    exptimes = [30.0, 30.0, 30.0, 30.0]
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=deepcopy(detailer_list),
+            too_types_to_follow=["GW_NSBH_Bronze"],
+            survey_name="ToO, GW, NSBH, Bronze",
+            # Update target_name to match the alert event ID
+            target_name_base="GW_NSBH_Bronze",
+            observation_reason="too_gw_nsbh_bronze",
+            science_program=science_program,
+            flushtime=48,
         )
     )
 
@@ -226,31 +321,15 @@ def gen_too_surveys(
         BandPickToODetailer(
             band_start="z",
             band_end="g",
-            distance_limit=30e10,
             check_mounted=True,
-            require_dark=True,
-        ),
-        BandPickToODetailer(
-            band_start="r",
-            band_end="u",
-            distance_limit=2.2e6,
-            check_mounted=True,
-            require_dark=True,
-        ),
+            require_dark=True
+        )
     ]
-    times = np.array([0, 2, 7, 9, 39], float) * 24
-    bands_at_times = ["rzi"] * times.size
+
+    times = np.array([0, 3, 8, 10, 40], float) * 24
+    bands_at_times = ["riz"] * times.size
     nvis = [1] * times.size
-    exptimes = [EXPTIME] * times.size
-
-    if detailer_list is not None:
-        more_detailers = deepcopy(detailer_list)
-    else:
-        more_detailers = []
-
-    more_detailers.append(
-        BandSubstituteDetailer(band_original="z", band_replacement="y")
-    )
+    exptimes = [EXPTIME] * times.size 
 
     too_surveys.append(
         ToOScriptedSurvey(
@@ -261,8 +340,8 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=more_detailers,
-            too_types_to_follow=["BBH_case_A", "BBH_case_B", "BBH_case_C"],
+            detailers=detailer_list,
+            too_types_to_follow=["BBH"],
             survey_name="ToO, BBH",
             # Update target_name to match the alert event ID
             target_name_base="BBH",
@@ -277,56 +356,59 @@ def gen_too_surveys(
     # Lensed BNS
     ############
 
-    times = np.array([1.0, 1.0, 25, 25, 49, 49], float)
-    bands_at_times = ["g", "r"] * 3
-    nvis = [1, 3] * 3
-    exptimes = [EXPTIME, EXPTIME] * 3
+    # SM --- I'm dropping this, since the observing
+    # strategy and implementation is still under discussion
 
-    too_surveys.append(
-        ToOScriptedSurvey(
-            masks,
-            nside=nside,
-            followup_footprint=too_footprint,
-            times=times,
-            bands_at_times=bands_at_times,
-            nvis=nvis,
-            exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
-            too_types_to_follow=["lensed_BNS_case_A"],
-            survey_name="ToO, LensedBNS_A",
-            # Update target_name to match the alert event ID
-            target_name_base="LensedBNS_A",
-            observation_reason="too_lensed_bns_a",
-            science_program=science_program,
-            flushtime=48.0,
-        )
-    )
+    # times = np.array([1.0, 1.0, 25, 25, 49, 49], float)
+    # bands_at_times = ["g", "r"] * 3
+    # nvis = [1, 3] * 3
+    # exptimes = [EXPTIME, EXPTIME] * 3
 
-    # This is the small skymap (15 deg^2 case)
-    times = np.array([1.0, 1.0, 25, 25, 49, 49], float)
-    bands_at_times = ["g", "r"] * 3
-    nvis = [180, 120] * 3
-    exptimes = [30] * times.size
+    # too_surveys.append(
+    #     ToOScriptedSurvey(
+    #         masks,
+    #         nside=nside,
+    #         followup_footprint=too_footprint,
+    #         times=times,
+    #         bands_at_times=bands_at_times,
+    #         nvis=nvis,
+    #         exptimes=exptimes,
+    #         detailers=deepcopy(detailer_list),
+    #         too_types_to_follow=["lensed_BNS_case_A"],
+    #         survey_name="ToO, LensedBNS_A",
+    #         # Update target_name to match the alert event ID
+    #         target_name_base="LensedBNS_A",
+    #         observation_reason="too_lensed_bns_a",
+    #         science_program=science_program,
+    #         flushtime=48.0,
+    #     )
+    # )
 
-    too_surveys.append(
-        ToOScriptedSurvey(
-            masks,
-            nside=nside,
-            followup_footprint=too_footprint,
-            times=times,
-            bands_at_times=bands_at_times,
-            nvis=nvis,
-            exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
-            too_types_to_follow=["lensed_BNS_case_B"],
-            survey_name="ToO, LensedBNS_B",
-            # Update target_name to match the alert event ID
-            target_name_base="LensedBNS_B",
-            observation_reason="too_lensed_bns_b",
-            science_program=science_program,
-            flushtime=48.0,
-        )
-    )
+    # # This is the small skymap (15 deg^2 case)
+    # times = np.array([1.0, 1.0, 25, 25, 49, 49], float)
+    # bands_at_times = ["g", "r"] * 3
+    # nvis = [180, 120] * 3
+    # exptimes = [30] * times.size
+
+    # too_surveys.append(
+    #     ToOScriptedSurvey(
+    #         masks,
+    #         nside=nside,
+    #         followup_footprint=too_footprint,
+    #         times=times,
+    #         bands_at_times=bands_at_times,
+    #         nvis=nvis,
+    #         exptimes=exptimes,
+    #         detailers=deepcopy(detailer_list),
+    #         too_types_to_follow=["lensed_BNS_case_B"],
+    #         survey_name="ToO, LensedBNS_B",
+    #         # Update target_name to match the alert event ID
+    #         target_name_base="LensedBNS_B",
+    #         observation_reason="too_lensed_bns_b",
+    #         science_program=science_program,
+    #         flushtime=48.0,
+    #     )
+    # )
 
     ############
     # Neutrino detector followup
