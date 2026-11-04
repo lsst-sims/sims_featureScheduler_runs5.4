@@ -418,12 +418,12 @@ def gen_too_surveys(
     # IceCube followup - Standard
     ############
 
-    times = np.array([0.0, 0.0, 15.0 / 60.0, 0.0, 24.0, 24.0, 48.0, 72.0, 96.0, 120.0, 144.0, 168.0, 168.0], float)
-    bands_at_times = ["u", "g", "r", "z", "g", "r", "g", "g", "gr", "g", "g", "g", "rz"]
+    times = np.array([0.0, 0.0, 15.0 / 60.0, 0.0, 24.0, 24.0, 48.0, 72.0, 96.0, 120.0, 144.0, 168.0, 168.0, 192.0, 216.0], float)
+    bands_at_times = ["u", "g", "r", "z", "g", "r", "g", "g", "gr", "g", "g", "g", "rz", "g", "g"]
     exptimes = [
-        30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30
+        30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30
     ]
-    nvis = [1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 4, 1]
+    nvis = [1, 4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1]
 
     too_surveys.append(
         ToOScriptedSurvey(
@@ -481,7 +481,7 @@ def gen_too_surveys(
     # IceCube followup - coincident alert 
     ############
 
-    times = np.array([0, 15/60, 2, 1], float)
+    times = np.array([0, 15/60, 2, 24], float)
     bands_at_times = ["rz","g","r","rgz"]
     exptimes = [
          30, 30, 30, 30
