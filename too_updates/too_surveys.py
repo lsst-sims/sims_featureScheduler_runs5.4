@@ -475,7 +475,7 @@ def gen_too_surveys(
     # IceCube followup - coincident alert 
     ############
 
-    times = np.array([0, 15/60, 2, ], float)
+    times = np.array([0, 15/60, 2, 1], float)
     bands_at_times = ["rz","g","r","rgz"]
     exptimes = [
          30, 30, 30, 30
