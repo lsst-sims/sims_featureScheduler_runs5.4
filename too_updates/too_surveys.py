@@ -183,7 +183,7 @@ def gen_too_surveys(
             nvis=nvis,
             exptimes=exptimes,
             detailers=add_ToO_Dither_detailer(detailer_list),
-            too_types_to_follow=["GW_BNS_Silver,GW_SSM_Silver"],
+            too_types_to_follow=["GW_BNS_Silver","GW_SSM_Silver"],
             survey_name="ToO, GW, BNS, Silver",
             # Update target_name to match the alert event ID
             target_name_base="GW_BNS_Silver",
