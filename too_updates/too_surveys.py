@@ -39,6 +39,7 @@ from lsst_surveys import (
     SCIENCE_PROGRAM,
 )
 
+ToO_Dither_detailer = detailers.DitherDetailer(per_night=False, max_dither=0.01)
 
 def gen_too_surveys(
     nside: int = DEFAULT_NSIDE,
@@ -75,6 +76,11 @@ def gen_too_surveys(
         of visits in response to ToO events in the Conditions objects.
     """
 
+    def add_ToO_Dither_detailer(dtList):
+        thisDetailer = deepcopy(dtList)
+        thisDetailer.append(ToO_Dither_detailer)
+        return thisDetailer
+
     too_surveys = []
 
     if masks is None:
@@ -94,7 +100,7 @@ def gen_too_surveys(
     # SPM--Maybe it would be good to have this, or some other
     # GW-based strategy as a backup in the event of a ToO advisory
     # Committee intervention. Would need further consultation.
-
+    
     times = np.array([0, 24, 48], float)
     bands_at_times = ["ugrizy", "ugrizy", "ugrizy"]
     nvis = [3, 1, 1]
@@ -108,7 +114,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["GW_case_A"],
             survey_name="ToO, GW_A",
             flushtime=48.0,
@@ -146,7 +152,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["GW_BNS_Gold,GW_SSM_Gold"],
             survey_name="ToO, GW, BNS, Gold",
             # Update target_name to match the alert event ID
@@ -176,7 +182,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["GW_BNS_Silver,GW_SSM_Silver"],
             survey_name="ToO, GW, BNS, Silver",
             # Update target_name to match the alert event ID
@@ -205,7 +211,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["GW_BNS_Bronze"],
             survey_name="ToO, GW, BNS, Bronze",
             # Update target_name to match the alert event ID
@@ -235,7 +241,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["GW_NSBH_Gold"],
             survey_name="ToO, GW, NSBH, Gold",
             # Update target_name to match the alert event ID
@@ -264,7 +270,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["GW_NSBH_Silver"],
             survey_name="ToO, GW, NSBH, Silver",
             # Update target_name to match the alert event ID
@@ -293,7 +299,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["GW_NSBH_Bronze"],
             survey_name="ToO, GW, NSBH, Bronze",
             # Update target_name to match the alert event ID
@@ -337,7 +343,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=detailer_list,
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["BBH"],
             survey_name="ToO, BBH",
             # Update target_name to match the alert event ID
@@ -428,7 +434,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["neutrino_standard"],
             survey_name="ToO, neutrino, standard",
             # Update target_name to match the alert event ID
@@ -460,7 +466,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["neutrino_extreme"],
             survey_name="ToO, neutrino, extreme",
             # Update target_name to match the alert event ID
@@ -491,7 +497,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["neutrino_coinc"],
             survey_name="ToO, neutrino, coincident",
             # Update target_name to match the alert event ID
@@ -523,7 +529,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(detailer_list),
             too_types_to_follow=["SSO_night"],
             survey_name="ToO, SSO_night",
             # Update target_name to match the alert event ID
@@ -558,7 +564,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=more_detailers,
+            detailers=add_ToO_Dither_detailer(more_detailers),
             too_types_to_follow=["SSO_twilight"],
             survey_name="ToO, SSO_twi",
             # Update target_name to match the alert event ID
@@ -590,7 +596,7 @@ def gen_too_surveys(
             bands_at_times=bands_at_times,
             nvis=nvis,
             exptimes=exptimes,
-            detailers=deepcopy(detailer_list),
+            detailers=add_ToO_Dither_detailer(more_detailers),
             too_types_to_follow=["SN_Galactic"],
             survey_name="ToO, galactic SN",
             # Update target_name to match the alert event ID
