@@ -541,7 +541,7 @@ def gen_too_surveys(
         )
     )
 
-    times = np.array([0, 10 / 60.0, 20 / 60.0])
+    times = np.array([0, 33 / 60.0, 66 / 60.0])
     bands_at_times = ["z"] * 3
     nvis = [2] * 3
     exptimes = [15.0] * 3
