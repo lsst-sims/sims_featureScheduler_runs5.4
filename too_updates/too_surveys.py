@@ -607,4 +607,223 @@ def gen_too_surveys(
         )
     )
 
+    ############
+    # GRB - short
+    ############
+
+    # Each epoch is one scan of the localization in a single band, with
+    # scans starting at least 30 min apart so that repeat visits to a field
+    # can reject moving objects. Times are hours after the alert, with
+    # night 1 placed at +24 h as in the GW surveys.
+
+    times = np.array([0, 0.5, 1, 24, 24.5, 25], float)
+    bands_at_times = ["r", "z", "r", "g", "r", "z"]
+    nvis = [1] * times.size
+    exptimes = [EXPTIME] * times.size
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=add_ToO_Dither_detailer(detailer_list),
+            too_types_to_follow=["GRB_short"],
+            survey_name="ToO, GRB, short",
+            # Update target_name to match the alert event ID
+            target_name_base="GRB_short",
+            observation_reason="too_grb_short",
+            science_program=science_program,
+            flushtime=48,
+        )
+    )
+
+
+    ############
+    # GRB - merger-driven long
+    ############
+
+    # Nights 7 and 14 look for an associated supernova.
+
+    times = np.array([0, 0.5, 1, 24, 24.5, 25, 168, 336], float)
+    bands_at_times = ["r", "g", "r", "g", "r", "z", "r", "r"]
+    nvis = [1] * times.size
+    exptimes = [EXPTIME] * times.size
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=add_ToO_Dither_detailer(detailer_list),
+            too_types_to_follow=["GRB_mergerlong"],
+            survey_name="ToO, GRB, merger-driven long",
+            # Update target_name to match the alert event ID
+            target_name_base="GRB_mergerlong",
+            observation_reason="too_grb_mergerlong",
+            science_program=science_program,
+            flushtime=20 * 24,
+        )
+    )
+
+
+    ############
+    # GRB - very high energy (Fermi-GBM)
+    ############
+
+    times = np.array([0, 0.5, 1, 1.5, 24, 24.5, 25, 25.5], float)
+    bands_at_times = ["r", "g", "z", "r", "g", "r", "i", "z"]
+    nvis = [1] * times.size
+    exptimes = [EXPTIME] * times.size
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=add_ToO_Dither_detailer(detailer_list),
+            too_types_to_follow=["GRB_VHE_GBM"],
+            survey_name="ToO, GRB, VHE, GBM",
+            # Update target_name to match the alert event ID
+            target_name_base="GRB_VHE_GBM",
+            observation_reason="too_grb_vhe_gbm",
+            science_program=science_program,
+            flushtime=48,
+        )
+    )
+
+
+    ############
+    # GRB - very high energy (Fermi-LAT)
+    ############
+
+    # Same sequence as the GBM case, but the LAT localizations only
+    # need 1-2 pointings.
+
+    times = np.array([0, 0.5, 1, 1.5, 24, 24.5, 25, 25.5], float)
+    bands_at_times = ["r", "g", "z", "r", "g", "r", "i", "z"]
+    nvis = [1] * times.size
+    exptimes = [EXPTIME] * times.size
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=add_ToO_Dither_detailer(detailer_list),
+            too_types_to_follow=["GRB_VHE_LAT"],
+            survey_name="ToO, GRB, VHE, LAT",
+            # Update target_name to match the alert event ID
+            target_name_base="GRB_VHE_LAT",
+            observation_reason="too_grb_vhe_lat",
+            science_program=science_program,
+            flushtime=48,
+        )
+    )
+
+
+    ############
+    # GRB - prompt polarization
+    ############
+
+    times = np.array([0, 0.5, 1, 1.5, 24, 24.5, 25, 25.5], float)
+    bands_at_times = ["g", "r", "z", "g", "r", "g", "z", "r"]
+    nvis = [1] * times.size
+    exptimes = [EXPTIME] * times.size
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=add_ToO_Dither_detailer(detailer_list),
+            too_types_to_follow=["GRB_polarization"],
+            survey_name="ToO, GRB, polarization",
+            # Update target_name to match the alert event ID
+            target_name_base="GRB_polarization",
+            observation_reason="too_grb_polarization",
+            science_program=science_program,
+            flushtime=48,
+        )
+    )
+
+
+    ############
+    # GRB - ultra-long
+    ############
+
+    times = np.array([0, 0.5, 1, 24, 24.5, 25], float)
+    bands_at_times = ["g", "z", "g", "g", "r", "z"]
+    nvis = [1] * times.size
+    exptimes = [EXPTIME] * times.size
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=add_ToO_Dither_detailer(detailer_list),
+            too_types_to_follow=["GRB_ultralong"],
+            survey_name="ToO, GRB, ultra-long",
+            # Update target_name to match the alert event ID
+            target_name_base="GRB_ultralong",
+            observation_reason="too_grb_ultralong",
+            science_program=science_program,
+            flushtime=48,
+        )
+    )
+
+
+    ############
+    # GRB - coincident with a nearby cluster or galaxy
+    ############
+
+    times = np.array([0, 0.5, 1, 24, 24.5, 25], float)
+    bands_at_times = ["g", "z", "g", "g", "r", "z"]
+    nvis = [1] * times.size
+    exptimes = [EXPTIME] * times.size
+
+    too_surveys.append(
+        ToOScriptedSurvey(
+            masks,
+            nside=nside,
+            followup_footprint=too_footprint,
+            times=times,
+            bands_at_times=bands_at_times,
+            nvis=nvis,
+            exptimes=exptimes,
+            detailers=add_ToO_Dither_detailer(detailer_list),
+            too_types_to_follow=["GRB_cluster"],
+            survey_name="ToO, GRB, cluster",
+            # Update target_name to match the alert event ID
+            target_name_base="GRB_cluster",
+            observation_reason="too_grb_cluster",
+            science_program=science_program,
+            flushtime=48,
+        )
+    )
+
     return too_surveys
