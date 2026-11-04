@@ -39,7 +39,7 @@ from lsst_surveys import (
     SCIENCE_PROGRAM,
 )
 
-ToO_Dither_detailer = detailers.DitherDetailer(per_night=False, max_dither=0.01)
+ToO_Dither_detailer = detailers.DitherDetailer(per_night=False, max_dither=0.0027)
 
 def gen_too_surveys(
     nside: int = DEFAULT_NSIDE,
@@ -153,7 +153,7 @@ def gen_too_surveys(
             nvis=nvis,
             exptimes=exptimes,
             detailers=add_ToO_Dither_detailer(detailer_list),
-            too_types_to_follow=["GW_BNS_Gold,GW_SSM_Gold"],
+            too_types_to_follow=["GW_BNS_Gold","GW_SSM_Gold"],
             survey_name="ToO, GW, BNS, Gold",
             # Update target_name to match the alert event ID
             target_name_base="GW_BNS_Gold",
@@ -229,7 +229,7 @@ def gen_too_surveys(
     ############ 
 
     times = np.array([0, 2, 4, 24, 48, 72, 168], float)
-    bands_at_times = ["griz", "griz", "griz", "giz", "giz", "giz", "giz]
+    bands_at_times = ["griz", "griz", "griz", "giz", "giz", "giz", "giz"]
     nvis = [1, 1, 1, 3, 3, 3, 3]
     exptimes = [30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0]
     too_surveys.append(
@@ -259,7 +259,7 @@ def gen_too_surveys(
 
     times = np.array([0, 2, 24, 48, 72, 168], float)
     bands_at_times = ["gz", "gz", "gz", "gz", "gz", "gz"]
-    nvis = [1, 1, 3, 3, 3]
+    nvis = [1, 1, 3, 3, 3, 3]
     exptimes = [30.0, 30.0, 30.0, 30.0, 30.0, 30.0]
     too_surveys.append(
         ToOScriptedSurvey(
