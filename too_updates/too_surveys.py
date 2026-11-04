@@ -228,10 +228,10 @@ def gen_too_surveys(
     # GW - NSBH gold
     ############ 
 
-    times = np.array([0, 2, 4, 24, 48, 72], float)
-    bands_at_times = ["griz", "griz", "griz", "giz", "giz", "giz"]
-    nvis = [1, 1, 1, 3, 3, 3]
-    exptimes = [30.0, 30.0, 30.0, 30.0, 30.0, 30.0]
+    times = np.array([0, 2, 4, 24, 48, 72, 168], float)
+    bands_at_times = ["griz", "griz", "griz", "giz", "giz", "giz", "giz]
+    nvis = [1, 1, 1, 3, 3, 3, 3]
+    exptimes = [30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0]
     too_surveys.append(
         ToOScriptedSurvey(
             masks,
@@ -257,10 +257,10 @@ def gen_too_surveys(
     # GW - NSBH silver 
     ############ 
 
-    times = np.array([0, 2, 24, 48, 72], float)
-    bands_at_times = ["gz", "gz", "gz", "gz", "gz"]
+    times = np.array([0, 2, 24, 48, 72, 168], float)
+    bands_at_times = ["gz", "gz", "gz", "gz", "gz", "gz"]
     nvis = [1, 1, 3, 3, 3]
-    exptimes = [30.0, 30.0, 30.0, 30.0, 30.0]
+    exptimes = [30.0, 30.0, 30.0, 30.0, 30.0, 30.0]
     too_surveys.append(
         ToOScriptedSurvey(
             masks,
